@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>this is tasks list</h1>
+    <table>
+        <tr>
+            <th>tasks</th>
+        </tr>
+        {% for task in tasks %}
+            <tr>
+                {% if task %}
+                    <td>
+                        {{task.title}}
+                    </td>
+                    <td>
+                        <a href="{% url "task" pk=task.id%}">detail</a>
+                    </td>
+                {% else %}
+                    <h3>no data</h3>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
