@@ -1,9 +1,53 @@
-<p>register page</p>
+{% extends "shared/__layout.html" %}
+{% load static %}
 
-<form action="{% url "register" %}" method="post">
-    {% csrf_token %}
-    {{form}}
-    <input type="submit" value='login'>
-</form>
-
-<p>alredy have an account ? <a href="{% url "login" %}">login</a></p>
+{% block title %}Register{% endblock title %}
+{% block content %}
+<div class="header-bar">
+    <h1>Register</h1>
+</div>
+    <div class="card-body">
+        <form action="{% url "register" %}" method="POST">
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+                <div class="error-message">
+                    {% for error in form.non_field_errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+            <label>{{ form.username.label }}</label>
+            {{ form.username }}
+            {% if form.username.errors %}
+                <div class="error-message">
+                    {% for error in form.username.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+    
+            <label>{{ form.password1.label }}</label>
+            {{ form.password1 }}
+            {% if form.password1.errors %}
+                <div class="error-message">
+                    {% for error in form.password1.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+    
+            <label>{{ form.password2.label }}</label>
+            {{ form.password2 }}
+            {% if form.password2.errors %}
+                <div class="error-message">
+                    {% for error in form.password2.errors %}
+                        {{ error }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+    
+            <input class="button" type="submit" value="Register" id="reg_input">
+        </form>
+        <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+    </div>
+{% endblock content %}

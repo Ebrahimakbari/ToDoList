@@ -1,10 +1,9 @@
 from django.contrib.auth import logout,login
 from django.forms import BaseModelForm
 from django.http import HttpRequest, HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic.list import ListView
-from django.views.generic.detail import DetailView
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic.edit import UpdateView , DeleteView, CreateView,FormView
 from django.utils.decorators import method_decorator
@@ -62,12 +61,6 @@ class TaskList(ListView):
     
     
 @method_decorator(decorator_group(),name='dispatch')
-class TaskDetail(DetailView):
-    model = Task
-    context_object_name = 'task'
-    
-    
-@method_decorator(decorator_group(),name='dispatch')
 class TaskCreate(CreateView):
     model = Task
     fields = ['title','description','complete']
@@ -94,3 +87,6 @@ class TaskDelete(DeleteView):
     success_url = reverse_lazy('tasks')
     context_object_name = 'task'
     template_name = 'base/task_delete.html'
+    def get_queryset(self):
+        owner = self.request.user
+        return self.model.objects.filter(user=owner)

@@ -1,9 +1,20 @@
-<p>login page</p>
+{% extends "shared/__layout.html" %}
+{% load static %}
 
-<form action="{% url "login" %}" method="post">
-    {% csrf_token %}
-    {{form}}
-    <input type="submit" value='login'>
-</form>
+{% block title %}Login{% endblock title %}
 
-<p>dont have a <a href="{% url "register" %}">account</a>?</p>
+
+{% block content %}
+    <div class="header-bar">
+        <h1>Login</h1>
+    </div>
+    <div class="card-body">
+        <form action="{% url "login" %}" method="post">
+            {% csrf_token %}
+            {{form}}
+            <input class="button" type="submit" value='login'>
+        </form>
+    
+        <p>Dont have an <a href="{% url "register" %}">account</a>?</p>
+    </div>
+{% endblock content %}
