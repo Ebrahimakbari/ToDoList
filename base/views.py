@@ -1,11 +1,12 @@
-from django.contrib.auth import logout
+from django.contrib.auth import logout,login
 from django.forms import BaseModelForm
-from django.http import HttpResponse
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import UpdateView , DeleteView, CreateView
+from django.contrib.auth.forms import UserCreationForm
+from django.views.generic.edit import UpdateView , DeleteView, CreateView,FormView
 from django.utils.decorators import method_decorator
 from utils.decorators import decorator_group
 from .models import Task
@@ -24,6 +25,23 @@ class LoginClass(LoginView):
 def logout_view(request):
     logout(request)
     return redirect(reverse_lazy('login'))
+
+class RegisterClass(FormView):
+    form_class = UserCreationForm
+    template_name = 'base/register.html'
+    success_url = reverse_lazy('tasks')
+    
+    def form_valid(self, form):
+        user = form.save()
+        if user is not None:
+            login(self.request,user)
+        return super().form_valid(form)
+    
+    def get(self, request: HttpRequest, *args: str, **kwargs):
+        if request.user.is_authenticated:
+            return redirect(reverse_lazy('login'))
+        return super().get(request, *args, **kwargs)
+
 
 
 @method_decorator(decorator_group(),name='dispatch')
