@@ -8,6 +8,11 @@
 <br>
 
 <h1>this is tasks list</h1>
+
+<form action="{% url "tasks" %}" method="get">
+    <input type="text" name="search-content" value="{{search_data}}">
+    <input type="submit" value="search">
+</form>
 <table>
     <tr>
         <th>tasks ({{count}}) left unfinished</th>
@@ -30,7 +35,7 @@
                 <td>
                     <a href="{% url "delete_task" pk=task.id%}">delete</a>
                 </td>
-                {% else %}
+            {% else %}
                 <h3>no data</h3>
             {% endif %}
         </tr>
