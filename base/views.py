@@ -10,6 +10,7 @@ from django.utils.decorators import method_decorator
 from utils.decorators import decorator_group
 from .models import Task
 from django.contrib.auth.views import LoginView
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 
@@ -24,6 +25,13 @@ class LoginClass(LoginView):
 def logout_view(request):
     logout(request)
     return redirect(reverse_lazy('login'))
+
+
+@login_required
+def delete_view(request):
+    request.user.delete()
+    return redirect('login')
+
 
 class RegisterClass(FormView):
     form_class = UserCreationForm

@@ -10,8 +10,11 @@
         </div>
     
         {% if request.user.is_authenticated %}
-        <a href="{% url 'logout' %}">Logout</a> {% else %}
-        <a href="{% url 'login' %}">Login</a> {% endif %}
+        <a href="{% url 'logout' %}">Logout</a> 
+        <a href="{% url 'delete' %}">Delete account</a> 
+        {% else %}
+        <a href="{% url 'login' %}">Login</a> 
+        {% endif %}
     </div>
     
     
